@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-server
+  labels:
+    app: api-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api-server
+  template:
+    metadata:
+      labels:
+        app: api-server
+    spec:
+      containers:
+      - name: api-server
+        image: gcr.io/advance-engine-444818-p0/api-server:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_HOST
+          value: "mysql-instance-ip"
+        - name: DB_USER
+          value: "api_user"
+        - name: DB_PASSWORD
+          value: "securepassword123"
+        - name: DB_NAME
+          value: "mydatabase"
