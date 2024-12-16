@@ -27,7 +27,7 @@ func main() {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", dbUser, dbPassword, dbHost, dbName)
 	db, err = sql.Open("mysql", dsn)
 	if err != nil {
-		log.Fatalf("Failed to connect to DB: %v", err)
+		log.Fatalf("🚨 DB 연결 실패: %v", err)
 	}
 	defer db.Close()
 
@@ -37,7 +37,7 @@ func main() {
 
 	// 서버 시작
 	port := ":8080"
-	fmt.Printf("API Server is running on port %s\n", port)
+	fmt.Printf("✅ API Server 시작: 포트 %s\n", port)
 	log.Fatal(http.ListenAndServe(port, nil))
 }
 
@@ -56,14 +56,14 @@ func crudHandler(w http.ResponseWriter, r *http.Request) {
 		createItem(w, r)
 	default:
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		w.Write([]byte("Method not allowed"))
+		w.Write([]byte("🚨 허용되지 않은 메서드"))
 	}
 }
 
 func getItems(w http.ResponseWriter, r *http.Request) {
 	rows, err := db.Query("SELECT id, name FROM items")
 	if err != nil {
-		http.Error(w, "Failed to query items", http.StatusInternalServerError)
+		http.Error(w, "🚨 데이터 조회 실패", http.StatusInternalServerError)
 		return
 	}
 	defer rows.Close()
@@ -88,16 +88,16 @@ func createItem(w http.ResponseWriter, r *http.Request) {
 		Name string `json:"name"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&item); err != nil {
-		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+		http.Error(w, "🚨 유효하지 않은 요청", http.StatusBadRequest)
 		return
 	}
 
 	_, err := db.Exec("INSERT INTO items (name) VALUES (?)", item.Name)
 	if err != nil {
-		http.Error(w, "Failed to insert item", http.StatusInternalServerError)
+		http.Error(w, "🚨 데이터 삽입 실패", http.StatusInternalServerError)
 		return
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte("Item created"))
+	w.Write([]byte("✅ 데이터 삽입"))
 }

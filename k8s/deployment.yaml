@@ -16,15 +16,9 @@ spec:
     spec:
       containers:
       - name: api-server
-        image: gcr.io/advance-engine-444818-p0/api-server:latest
+        image: yoonheoz/api:1.0  # Docker 이미지 (컨테이너)
         ports:
         - containerPort: 8080
-        env:
-        - name: DB_HOST
-          value: "mysql-instance-ip"
-        - name: DB_USER
-          value: "api_user"
-        - name: DB_PASSWORD
-          value: "securepassword123"
-        - name: DB_NAME
-          value: "mydatabase"
+        envFrom:
+        - configMapRef:
+            name: api-server-config  # ConfigMap에서 환경변수 가져오기
