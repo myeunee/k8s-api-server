@@ -10,9 +10,6 @@
 Go로 개발된 API 서버가 Terraform을 통해 정의된 인프라를 기반으로 Kubernetes 클러스터와 상호작용하며, GCP에서 리소스를 관리한다. 
 
 
-## ⚙️ **Architecture**
-![아키텍처2 drawio](https://github.com/user-attachments/assets/77557630-29ab-4809-bf58-8a6ea5b193bc)
-
 
 ### 1️⃣ **SA Key Used By Terraform**
 - Terraform은 GCP의 서비스 계정 키를 사용하여 인증을 처리
